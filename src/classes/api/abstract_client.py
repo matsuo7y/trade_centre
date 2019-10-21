@@ -32,7 +32,7 @@ class AbstractClient(ABC):
         raise NotImplementedError()
 
     @abstractmethod
-    def deserialize_response(self, data):
+    def deserialize_response(self, resp):
         raise NotImplementedError()
 
     def exec(self, path_query=None, params=None, data=None):
