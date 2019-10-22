@@ -1,19 +1,16 @@
 from .abstract_get_client import AbstractGetClient
 from ..deserializer import Deserializer
-from ..serializer import Serializer
 
 
-class AccountChanges(AbstractGetClient):
+class Account(AbstractGetClient):
 
     def __init__(self):
         super().__init__()
 
     def make_path(self, path_query=None):
-        return '/accounts/{}/changes'.format(path_query['accountID'])
+        return '/accounts/{}'.format(path_query['accountID'])
 
     def serialize_params(self, params):
-        key = 'sinceTransactionID'
-        params[key] = Serializer.number_id(params[key])
         return params
 
     def deserialize_response(self, resp):
@@ -22,7 +19,6 @@ class AccountChanges(AbstractGetClient):
             resp[key] = Deserializer.number_id(resp[key])
         return resp
 
-    def get(self, account_id, since_transaction_id):
+    def get(self, account_id):
         path_query = {'accountID': account_id}
-        params = {'sinceTransactionID': since_transaction_id}
-        return self.exec(path_query=path_query, params=params)
+        return self.exec(path_query=path_query)

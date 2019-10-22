@@ -25,13 +25,10 @@ class Candles(AbstractGetClient):
         super().__init__()
 
     def make_path(self, path_query=None):
-        key = 'instrument'
-        if key not in path_query:
-            raise ValueError('no instrument')
-        return '/instruments/{}/candles'.format(path_query[key])
+        return '/instruments/{}/candles'.format(path_query['instrument'])
 
     def serialize_params(self, params):
-        pass
+        return params
 
     def deserialize_response(self, resp):
         key = 'candles'

@@ -10,10 +10,10 @@ class Accounts(AbstractGetClient):
         return '/accounts'
 
     def serialize_params(self, params):
-        pass
+        return params
 
     def deserialize_response(self, resp):
-        pass
+        return resp
 
     def get(self):
         return self.exec()

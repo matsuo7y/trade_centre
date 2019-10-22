@@ -10,8 +10,8 @@ class AbstractGetClient(AbstractClient, ABC):
     def __init__(self):
         super().__init__()
 
-    def make_request(self, path, params=None, data=None):
-        return requests.get(path, params=params, headers=self.headers)
+    def make_request(self, url, params=None, data=None):
+        return requests.get(url, params=params, headers=self.headers)
 
     def serialize_data(self, data):
         pass

@@ -20,7 +20,7 @@ class AbstractClient(ABC):
         raise NotImplementedError()
 
     @abstractmethod
-    def make_request(self, path, params=None, data=None):
+    def make_request(self, url, params=None, data=None):
         raise NotImplementedError()
 
     @abstractmethod
@@ -37,6 +37,7 @@ class AbstractClient(ABC):
 
     def exec(self, path_query=None, params=None, data=None):
         path = self.make_path(path_query=path_query)
+        url = '{}{}'.format(self.base_url, path)
 
         if params is not None:
             params = self.serialize_params(params)
@@ -44,7 +45,5 @@ class AbstractClient(ABC):
         if data is not None:
             data = self.serialize_data(data)
 
-        resp = self.make_request(path=path, params=params, data=data)
-        resp_json = self.deserialize_response(resp.json())
-
-        return json.loads(resp_json)
+        resp = self.make_request(url=url, params=params, data=data)
+        return self.deserialize_response(resp.json())
