@@ -1,7 +1,12 @@
 import json
+import logging
 from abc import *
 
 from ..config import OANDA_DOMAIN, OANDA_TOKEN, OANDA_VERSION
+
+
+def success(code):
+    return 200 <= code < 300
 
 
 class AbstractClient(ABC):
@@ -35,7 +40,7 @@ class AbstractClient(ABC):
     def deserialize_response(self, resp):
         raise NotImplementedError()
 
-    def exec(self, path_query=None, params=None, data=None):
+    def exec(self, path_query=None, params=None, data=None, retry_count=1):
         path = self.make_path(path_query=path_query)
         url = '{}{}'.format(self.base_url, path)
 
@@ -45,5 +50,14 @@ class AbstractClient(ABC):
         if data is not None:
             data = self.serialize_data(data)
 
-        resp = self.make_request(url=url, params=params, data=data)
-        return self.deserialize_response(resp.json())
+        resp = None
+        while retry_count:
+            resp = self.make_request(url=url, params=params, data=json.dumps(data))
+            if success(resp.status_code):
+                return self.deserialize_response(resp.json())
+
+            logging.warning(resp.json())
+            if retry_count > 0:
+                retry_count -= 1
+
+        raise ValueError(resp.json())

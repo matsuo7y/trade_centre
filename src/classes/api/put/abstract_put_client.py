@@ -5,7 +5,7 @@ import requests
 from ..abstract_client import AbstractClient
 
 
-class AbstractPostClient(AbstractClient, ABC):
+class AbstractPutClient(AbstractClient, ABC):
 
     def __init__(self):
         super().__init__()

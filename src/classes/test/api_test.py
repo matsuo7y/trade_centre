@@ -1,6 +1,9 @@
 import logging
+import time
 
-from ..api.get import account_changes, accounts, account, candles
+from ..api.get import account_changes, accounts, account, candles, open_trades
+from ..api.post import order
+from ..api.put import close_trade
 
 
 def api_test():
@@ -14,8 +17,18 @@ def api_test():
 
     last_transaction_id = resp['lastTransactionID']
 
-    resp = account_changes.get(account_id, last_transaction_id)
-    logging.info('account_changes: %s', resp)
-
     resp = candles.get(count=2)
     logging.info('candles: %s', resp)
+
+    order.post(account_id)
+
+    time.sleep(2)
+
+    resp = open_trades.get(account_id)
+    logging.info('open_trades: %s', resp)
+
+    trade_id = resp['trades'][0]['id']
+    close_trade.put(account_id, trade_id)
+
+    resp = account_changes.get(account_id, last_transaction_id)
+    logging.info('account_changes: %s', resp)
