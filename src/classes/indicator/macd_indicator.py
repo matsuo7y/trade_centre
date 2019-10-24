@@ -1,6 +1,6 @@
 import talib
 
-from .indicator import Indicator
+from .indicator import Indicator, IndicatorValue
 
 
 class MACDIndicator(Indicator):
@@ -19,27 +19,29 @@ class MACDIndicator(Indicator):
 
     def get(self, df):
         macd, macd_signal, _ = talib.MACD(
-            df['o'], fastperiod=self.fastperiod, slowperiod=self.slowperiod, signalperiod=self.signalperiod)
+            df['c'], fastperiod=self.fastperiod, slowperiod=self.slowperiod, signalperiod=self.signalperiod)
 
         latest_macd = macd.iloc[-1]
         latest_signal = macd_signal.iloc[-1]
 
+        material = dict(macd=latest_macd, signal=latest_signal)
+
         if latest_macd < 0:
             if latest_signal < 0:
                 if latest_macd < latest_signal:
-                    return self.BOTH_UNDER_MACD_LESS
+                    return IndicatorValue(self.BOTH_UNDER_MACD_LESS, material=material)
                 else:
-                    return self.BOTH_UNDER_SIGNAL_LESS
+                    return IndicatorValue(self.BOTH_UNDER_SIGNAL_LESS, material=material)
             else:
-                return self.MACD_UNDER
+                return IndicatorValue(self.MACD_UNDER, material=material)
 
         if latest_macd > 0:
             if latest_signal > 0:
                 if latest_macd > latest_signal:
-                    return self.BOTH_OVER_MACD_GREATER
+                    return IndicatorValue(self.BOTH_OVER_MACD_GREATER, material=material)
                 else:
-                    return self.BOTH_OVER_SIGNAL_GREATER
+                    return IndicatorValue(self.BOTH_OVER_SIGNAL_GREATER, material=material)
             else:
-                return self.MACD_OVER
+                return IndicatorValue(self.MACD_OVER, material=material)
 
         return None

@@ -34,7 +34,7 @@ class Candles(AbstractGetClient):
         key = 'candles'
         if key in resp:
             for candle in resp[key]:
-                candle['time'] = Deserializer.unix_time_int(candle['time'])
+                candle['time'] = Deserializer.formatted_time(candle['time'])
                 if 'bid' in candle:
                     deserialize_candle(candle['bid'])
                 if 'ask' in candle:

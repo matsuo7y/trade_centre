@@ -20,6 +20,11 @@ class AccountChanges(AbstractGetClient):
         key = 'lastTransactionID'
         if key in resp:
             resp[key] = Deserializer.number_id(resp[key])
+
+        key = 'state'
+        if key in resp:
+            resp[key]['NAV'] = Deserializer.unit_float(resp[key]['NAV'])
+
         return resp
 
     def get(self, account_id, since_transaction_id):
