@@ -9,7 +9,7 @@ from ..api.put import close_trade
 
 class Trader(ABC):
 
-    def __init__(self, order_units=10000, candle_type=CandleType.S10.name, candle_count=500):
+    def __init__(self, order_units=10000, candle_type=CandleType.S5.name, candle_count=500):
         self.order_units = order_units
         self.trade_iterator = TradeIterator(self.get_indicator(), candle_type=candle_type, candle_count=candle_count)
 

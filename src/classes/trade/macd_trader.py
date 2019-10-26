@@ -5,7 +5,7 @@ from ..indicator import MACDIndicator, MACDIndicatorSign
 
 class MACDTrader(Trader):
 
-    def __init__(self, order_units=10000, candle_type=CandleType.S10.name, candle_count=500):
+    def __init__(self, order_units=10000, candle_type=CandleType.S5.name, candle_count=500):
         super().__init__(order_units=order_units, candle_type=candle_type, candle_count=candle_count)
 
     def get_indicator(self):

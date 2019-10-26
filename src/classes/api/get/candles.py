@@ -6,12 +6,13 @@ from ..deserializer import Deserializer
 
 
 class CandleType(Enum):
-    S10 = 1
-    M1 = 2
-    M30 = 3
-    H1 = 4
-    H4 = 5
-    D = 6
+    S5 = 1
+    S10 = 2
+    M1 = 3
+    M15 = 4
+    H1 = 5
+    H4 = 6
+    D = 7
 
 
 def deserialize_candle(candle):
@@ -43,7 +44,7 @@ class Candles(AbstractGetClient):
                     deserialize_candle(candle['mid'])
         return resp
 
-    def get(self, instrument='USD_JPY', price='M', granularity=CandleType.S10.name, count=500,
+    def get(self, instrument='USD_JPY', price='M', granularity=CandleType.S5.name, count=500,
             alignment_timezone='Asia/Tokyo'):
         path_query = {'instrument': instrument}
         params = {
