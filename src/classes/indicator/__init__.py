@@ -1,1 +1,1 @@
-from .macd_indicator import MACDIndicator
+from .macd_indicator import MACDIndicator, MACDIndicatorSign

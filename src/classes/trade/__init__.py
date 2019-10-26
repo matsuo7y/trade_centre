@@ -1,1 +1,1 @@
-from .trade_iterator import TradeIterator
+from .macd_trader import MACDTrader

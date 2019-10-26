@@ -1,7 +1,7 @@
 import logging
 from abc import *
 
-from .trade_iterator import TradeIterator
+from .trade_iterator import TradeIterator, OperationMode
 from ..api import CandleType, OrderDirection
 from ..api.post import order
 from ..api.put import close_trade
@@ -35,7 +35,10 @@ class Trader(ABC):
 
     def work(self):
         for iter_info in self.trade_iterator:
-            if iter_info.trade_id is None:
+            if iter_info.operation_mode == OperationMode.WATCH.name:
+                continue
+
+            if iter_info.trade_id is None and iter_info.operation_mode == OperationMode.TRADE.name:
 
                 order_direction = None
 

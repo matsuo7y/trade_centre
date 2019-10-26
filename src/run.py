@@ -1,10 +1,14 @@
 import argparse
 
 from classes.test import api_test
+from classes.trade import MACDTrader
 
 
 def get_args():
     parser = argparse.ArgumentParser('python src/run.py')
+
+    parser.add_argument('--trade', dest='trade', action='store_const', const=True, default=False,
+                        help='perform automatic FX trade')
     parser.add_argument('--test', dest='test', action='store_const', const=True, default=False,
                         help='perform system test')
 
@@ -16,3 +20,6 @@ if __name__ == '__main__':
 
     if args.test:
         api_test()
+
+    if args.trade:
+        MACDTrader().work()
