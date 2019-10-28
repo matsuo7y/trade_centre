@@ -22,7 +22,6 @@ class TradeInfo:
 
     def reset(self):
         self.trade_id = None
-        self.order_direction = None
         self.candles_df = None
         self.indicator_value = None
         self.operation_mode = None
@@ -94,8 +93,8 @@ class TradeIterator:
             else:
                 self.iter_info.order_direction = OrderDirection.SHORT.name
 
-            logging.info('Open: time=>%s unrealizedPL=>%s price=>%s units=>%s', trade['open'], trade['unrealizedPL'],
-                         trade['price'], trade['initialUnits'])
+            logging.info('Open: time=>%s unrealizedPL=>%s price=>%s units=>%s', trade['openTime'],
+                         trade['unrealizedPL'], trade['price'], trade['initialUnits'])
 
         resp = candles.get(granularity=self.candle_type, count=self.candle_count)
         df = pd.DataFrame(resp['candles'])

@@ -36,21 +36,21 @@ class MACDIndicator(Indicator):
         if latest_macd < 0:
             if latest_signal < 0:
                 if latest_macd < latest_signal:
-                    indicator_value = IndicatorValue(MACDIndicatorSign.BOTH_UNDER_MACD_LESS, material=material)
+                    indicator_value = IndicatorValue(MACDIndicatorSign.BOTH_UNDER_MACD_LESS.name, material=material)
                 else:
-                    indicator_value = IndicatorValue(MACDIndicatorSign.BOTH_UNDER_SIGNAL_LESS, material=material)
+                    indicator_value = IndicatorValue(MACDIndicatorSign.BOTH_UNDER_SIGNAL_LESS.name, material=material)
             else:
-                indicator_value = IndicatorValue(MACDIndicatorSign.MACD_UNDER, material=material)
+                indicator_value = IndicatorValue(MACDIndicatorSign.MACD_UNDER.name, material=material)
 
         if latest_macd > 0:
             if latest_signal > 0:
                 if latest_macd > latest_signal:
-                    indicator_value = IndicatorValue(MACDIndicatorSign.BOTH_OVER_MACD_GREATER, material=material)
+                    indicator_value = IndicatorValue(MACDIndicatorSign.BOTH_OVER_MACD_GREATER.name, material=material)
                 else:
-                    indicator_value = IndicatorValue(MACDIndicatorSign.BOTH_OVER_SIGNAL_GREATER, material=material)
+                    indicator_value = IndicatorValue(MACDIndicatorSign.BOTH_OVER_SIGNAL_GREATER.name, material=material)
             else:
-                indicator_value = IndicatorValue(MACDIndicatorSign.MACD_OVER, material=material)
+                indicator_value = IndicatorValue(MACDIndicatorSign.MACD_OVER.name, material=material)
 
-        logging.info("sign=>%s macd=>%s signal=>%s", indicator_value.value.name, latest_macd, latest_signal)
+        logging.info("sign=>%s macd=>%s signal=>%s", indicator_value.value, latest_macd, latest_signal)
 
         return indicator_value
