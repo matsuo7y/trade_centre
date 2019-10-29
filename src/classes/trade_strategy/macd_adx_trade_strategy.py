@@ -21,26 +21,32 @@ class MACDADXTradeStrategy(AbstractTradeStrategy):
 
     def should_make_long_order(self, indicator_values):
         macd, adx = self._get_indicator_value(indicator_values)
-        cond_macd = macd == MACDIndicatorSign.BOTH_UNDER_SIGNAL_LESS.name
+        cond_macd_1 = macd == MACDIndicatorSign.BOTH_UNDER_SIGNAL_LESS.name
         cond_adx = adx == ADXIndicatorSign.TREND_PLUS.name
 
-        return cond_macd and cond_adx
+        return cond_macd_1 and cond_adx
 
     def should_make_short_order(self, indicator_values):
         macd, adx = self._get_indicator_value(indicator_values)
-        cond_macd = macd == MACDIndicatorSign.BOTH_OVER_SIGNAL_GREATER.name
+        cond_macd_1 = macd == MACDIndicatorSign.BOTH_OVER_SIGNAL_GREATER.name
         cond_adx = adx == ADXIndicatorSign.TREND_MINUS.name
 
-        return cond_macd and cond_adx
+        return cond_macd_1 and cond_adx
 
     def should_take_profit_long_order(self, indicator_values):
-        macd, _ = self._get_indicator_value(indicator_values)
-        cond_macd = macd == MACDIndicatorSign.BOTH_OVER_SIGNAL_GREATER.name
+        macd, adx = self._get_indicator_value(indicator_values)
+        cond_macd_1 = macd == MACDIndicatorSign.BOTH_OVER_SIGNAL_GREATER.name
+        cond_macd_2 = macd == MACDIndicatorSign.MACD_UNDER.name
+        cond_macd_3 = macd == MACDIndicatorSign.BOTH_UNDER_MACD_LESS.name
+        cond_adx = adx == ADXIndicatorSign.TREND_PLUS.name
 
-        return cond_macd
+        return (cond_macd_1 or cond_macd_2 or cond_macd_3) and not cond_adx
 
     def should_take_profit_short_order(self, indicator_values):
         macd, adx = self._get_indicator_value(indicator_values)
-        cond_macd = macd == MACDIndicatorSign.BOTH_UNDER_SIGNAL_LESS.name
+        cond_macd_1 = macd == MACDIndicatorSign.BOTH_UNDER_SIGNAL_LESS.name
+        cond_macd_2 = macd == MACDIndicatorSign.MACD_OVER.name
+        cond_macd_3 = macd == MACDIndicatorSign.BOTH_OVER_MACD_GREATER.name
+        cond_adx = adx == ADXIndicatorSign.TREND_MINUS.name
 
-        return cond_macd
+        return (cond_macd_1 or cond_macd_2 or cond_macd_3) and not cond_adx
