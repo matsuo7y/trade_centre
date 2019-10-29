@@ -17,8 +17,8 @@ class MACDIndicatorSign(Enum):
 
 class MACDIndicator(Indicator):
 
-    def __init__(self, fastperiod=12, slowperiod=26, signalperiod=9):
-        super().__init__()
+    def __init__(self, fastperiod=12, slowperiod=26, signalperiod=9, is_test=False):
+        super().__init__(is_test=is_test)
         self.fastperiod = fastperiod
         self.slowperiod = slowperiod
         self.signalperiod = signalperiod
@@ -51,6 +51,7 @@ class MACDIndicator(Indicator):
             else:
                 indicator_value = IndicatorValue(MACDIndicatorSign.MACD_OVER.name, material=material)
 
-        logging.info("sign=>%s macd=>%s signal=>%s", indicator_value.value, latest_macd, latest_signal)
+        if not self.is_test:
+            logging.info("sign=>%s macd=>%s signal=>%s", indicator_value.value, latest_macd, latest_signal)
 
         return indicator_value

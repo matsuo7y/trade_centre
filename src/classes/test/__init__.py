@@ -1,1 +1,2 @@
-from .api_test import api_test
+from .api import api_test
+from .algorithm import algorithm_test

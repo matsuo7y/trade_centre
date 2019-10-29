@@ -1,0 +1,1 @@
+from .macd_algorithm_tester import MACDAlgorithmTester

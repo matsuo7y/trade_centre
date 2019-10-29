@@ -1,9 +1,9 @@
 import logging
 import time
 
-from ..api.get import account_changes, accounts, account, candles, open_trades
-from ..api.post import order
-from ..api.put import close_trade
+from ...api.get import account_changes, accounts, account, candles, open_trades
+from ...api.post import order
+from ...api.put import close_trade
 
 
 def api_test():
