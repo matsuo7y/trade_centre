@@ -14,7 +14,7 @@ class IndicatorValue:
         self.material = material
 
 
-class Indicator(ABC):
+class AbstractIndicator(ABC):
 
     def __init__(self, is_test=False):
         self.is_test = is_test
