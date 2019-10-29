@@ -1,5 +1,6 @@
-from .macd_trader import MACDTrader
+from .trader import Trader
+from ..trade_strategy import MACDADXTradeStrategy
 
 
 def trade():
-    MACDTrader().work()
+    Trader(strategy=MACDADXTradeStrategy()).work()

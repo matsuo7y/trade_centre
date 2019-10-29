@@ -24,16 +24,36 @@ class AbstractIndicator(ABC):
         raise NotImplementedError()
 
 
-class IndicatorBuilder:
+class Indicators:
+
+    def __init__(self, contents):
+        self.contents = contents
+
+    def get_values(self, df):
+        indicator_value_builder = IndicatorTypeDictBuilder()
+        for indicator_type, indicator in self.contents.items():
+            indicator_value_builder.add(indicator_type, indicator.get(df))
+        return indicator_value_builder.build()
+
+
+class IndicatorTypeDictBuilder:
     def __init__(self):
-        self.indicators = {}
+        self.contents = {}
 
     def add(self, indicator_type, value):
         try:
             key = IndicatorType[indicator_type].name
-            self.indicators[key] = value
+            self.contents[key] = value
         except KeyError as e:
             print(e)
 
     def build(self):
-        return self.indicators
+        return self.contents
+
+
+class IndicatorsBuilder(IndicatorTypeDictBuilder):
+    def __init__(self):
+        super().__init__()
+
+    def build(self):
+        return Indicators(super().build())

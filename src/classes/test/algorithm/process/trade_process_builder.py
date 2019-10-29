@@ -9,13 +9,12 @@ class TradeProcessBuilder(AbstractProcessBuilder):
     loss = 0
     profit = 1
 
-    def __init__(self, dump_file_path, indicator_process_builders=None):
+    def __init__(self, indicator_process_builders=None):
         super().__init__()
 
         if indicator_process_builders is None:
             indicator_process_builders = {}
 
-        self.dump_file_path = dump_file_path
         self.indicator_process_builders = indicator_process_builders
         self.directions = []
         self.profits = []
@@ -57,12 +56,12 @@ class TradeProcessBuilder(AbstractProcessBuilder):
         print(df.describe(include='all'))
         return df
 
-    def dump(self):
+    def dump(self, dump_file_path):
         df = self.build()
-        with open(self.dump_file_path, mode='wb') as f:
+        with open(dump_file_path, mode='wb') as f:
             pickle.dump(df, f)
 
-    def load(self):
-        with open(self.dump_file_path, mode='rb') as f:
+    def load(self, dump_file_path):
+        with open(dump_file_path, mode='rb') as f:
             df = pickle.load(f)
             return df

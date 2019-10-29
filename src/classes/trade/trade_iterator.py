@@ -17,13 +17,13 @@ class TradeInfo:
         self.trade_id = None
         self.order_direction = None
         self.candles_df = None
-        self.indicator_value = None
+        self.indicator_values = None
         self.operation_mode = None
 
     def reset(self):
         self.trade_id = None
         self.candles_df = None
-        self.indicator_value = None
+        self.indicator_values = None
         self.operation_mode = None
 
 
@@ -35,8 +35,8 @@ class OperationMode(Enum):
 
 class TradeIterator:
 
-    def __init__(self, indicator, candle_type=CandleType.S10.name, candle_count=500):
-        self.indicator = indicator
+    def __init__(self, indicators, candle_type=CandleType.S10.name, candle_count=500):
+        self.indicators = indicators
         self.candle_type = candle_type
         self.candle_count = candle_count
         self.iter_info = None
@@ -103,6 +103,6 @@ class TradeIterator:
 
         logging.info('Price: time=>%s close=>%s', df.iloc[-1]['time'], candles_df.iloc[-1]['c'])
 
-        self.iter_info.indicator_value = self.indicator.get(self.iter_info.candles_df)
+        self.iter_info.indicator_values = self.indicators.get_values(self.iter_info.candles_df)
 
         return self.iter_info

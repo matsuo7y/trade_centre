@@ -14,7 +14,7 @@ class ADXIndicatorSign(Enum):
 
 
 class ADXIndicator(AbstractIndicator):
-    trend_threshold = 34
+    trend_threshold = 34.0
 
     def __init__(self, time_period=9, is_test=False):
         super().__init__(is_test=is_test)

@@ -1,5 +1,4 @@
 import pandas as pd
-from ....indicator import IndicatorBuilder
 
 
 class TestIterator:
@@ -24,8 +23,4 @@ class TestIterator:
         df = self.df.iloc[self.current:end, :]
         self.current += 1
 
-        indicator_value_builder = IndicatorBuilder()
-        for indicator_type, indicator in self.indicators.items():
-            indicator_value_builder.add(indicator_type, indicator.get(df))
-
-        return indicator_value_builder.build(), end - 1
+        return self.indicators.get_values(df), end - 1

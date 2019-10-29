@@ -1,2 +1,1 @@
-from .macd_algorithm_tester import MACDAlgorithmTester
-from .macd_adx_algorithm_tester import MACDADXAlgorithmTester
+from .algorithm_tester import AlgorithmTester
