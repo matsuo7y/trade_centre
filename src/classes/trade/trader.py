@@ -24,9 +24,9 @@ class Trader(ABC):
 
             if iter_info.trade_id is None and iter_info.operation_mode == OperationMode.TRADE.name:
 
-                if self.strategy.should_make_short_order(iter_info.indicator_value):
+                if self.strategy.should_make_short_order(iter_info.indicator_values):
                     iter_info.order_direction = OrderDirection.SHORT.name
-                elif self.strategy.should_make_long_order(iter_info.indicator_value):
+                elif self.strategy.should_make_long_order(iter_info.indicator_values):
                     iter_info.order_direction = OrderDirection.LONG.name
 
                 if iter_info.order_direction is not None:
@@ -37,11 +37,11 @@ class Trader(ABC):
 
             close_long_order_cond = \
                 iter_info.order_direction == OrderDirection.LONG.name and \
-                self.strategy.should_take_profit_long_order(iter_info.indicator_value)
+                self.strategy.should_take_profit_long_order(iter_info.indicator_values)
 
             close_short_order_cond = \
                 iter_info.order_direction == OrderDirection.SHORT.name and \
-                self.strategy.should_take_profit_short_order(iter_info.indicator_value)
+                self.strategy.should_take_profit_short_order(iter_info.indicator_values)
 
             if close_long_order_cond or close_short_order_cond:
                 close_trade.put(iter_info.account_id, iter_info.trade_id)
