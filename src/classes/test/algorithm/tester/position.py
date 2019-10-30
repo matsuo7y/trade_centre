@@ -20,6 +20,7 @@ class Position:
         self.order_price = None
         self.take_profit_price = None
         self.profit_pips = None
+        self.max_profit_pips = -1000.0
         self.time = None
 
     def market_order(self, index, direction):
@@ -32,7 +33,7 @@ class Position:
         else:
             self.order_price = price - self.spread
 
-    def current_price_profit(self, index):
+    def __current_price_profit(self, index):
         current_price = self.df['c'].iloc[index]
 
         if self.order_direction == OrderDirection.LONG.name:
@@ -43,9 +44,14 @@ class Position:
         profit *= 100.
         return current_price, profit
 
+    def set_max_profit(self, index):
+        _, profit = self.__current_price_profit(index)
+        if profit > self.max_profit_pips:
+            self.max_profit_pips = profit
+
     def take_profit_order(self, index):
         if self.order_price is None:
             raise NoPositionException("You don't have any positions.")
 
         self.time = index - self.entry_index
-        self.take_profit_price, self.profit_pips = self.current_price_profit(index)
+        self.take_profit_price, self.profit_pips = self.__current_price_profit(index)

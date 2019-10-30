@@ -17,7 +17,7 @@ class MACDIndicatorSign(Enum):
 
 class MACDIndicator(AbstractIndicator):
 
-    def __init__(self, fast_period=12, slow_period=26, signal_period=9, is_test=False):
+    def __init__(self, fast_period=16, slow_period=35, signal_period=11, is_test=False):
         super().__init__(is_test=is_test)
         self.fast_period = fast_period
         self.slow_period = slow_period

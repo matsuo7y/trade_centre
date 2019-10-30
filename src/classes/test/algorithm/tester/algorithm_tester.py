@@ -39,6 +39,8 @@ class AlgorithmTester:
 
                 continue
 
+            self.position.set_max_profit(index)
+
             close_long_order_cond = \
                 self.position.order_direction == OrderDirection.LONG.name and \
                 self.strategy.should_take_profit_long_order(indicator_values)

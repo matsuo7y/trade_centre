@@ -19,6 +19,7 @@ class TradeProcessBuilder(AbstractProcessBuilder):
         self.directions = []
         self.profits = []
         self.pls = []
+        self.max_profits = []
         self.position_times = []
 
     def _entry(self, position, indicator_values):
@@ -30,7 +31,9 @@ class TradeProcessBuilder(AbstractProcessBuilder):
 
     def _exit(self, position, indicator_values):
         self.profits.append(position.profit_pips)
+        self.max_profits.append(position.max_profit_pips)
         self.position_times.append(position.time)
+
         profit_loss = self.profit if position.profit_pips > 0 else self.loss
         self.pls.append(profit_loss)
 
@@ -45,6 +48,7 @@ class TradeProcessBuilder(AbstractProcessBuilder):
         data = {
             'direction': self.directions,
             'profit': self.profits,
+            'max_profit': self.max_profits,
             'profit_loss': self.pls,
             'position_time': self.position_times
         }
