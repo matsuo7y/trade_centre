@@ -11,8 +11,11 @@ class MACDADXTradeStrategy(AbstractTradeStrategy):
 
     def get_indicators(self):
         indicator_builder = IndicatorsBuilder()
-        indicator_builder.add(IndicatorType.MACD.name, MACDIndicator(is_test=self.is_test))
-        indicator_builder.add(IndicatorType.ADX.name, ADXIndicator(is_test=self.is_test))
+        indicator_builder.add(
+            IndicatorType.MACD.name,
+            MACDIndicator(fast_period=12, slow_period=26, signal_period=9, is_test=self.is_test)
+        )
+        indicator_builder.add(IndicatorType.ADX.name, ADXIndicator(time_period=9, is_test=self.is_test))
         return indicator_builder.build()
 
     @staticmethod

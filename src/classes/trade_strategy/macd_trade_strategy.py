@@ -9,7 +9,10 @@ class MACDTradeStrategy(AbstractTradeStrategy):
 
     def get_indicators(self):
         indicator_builder = IndicatorsBuilder()
-        indicator_builder.add(IndicatorType.MACD.name, MACDIndicator(is_test=self.is_test))
+        indicator_builder.add(
+            IndicatorType.MACD.name,
+            MACDIndicator(fast_period=12, slow_period=26, signal_period=9, is_test=self.is_test)
+        )
         return indicator_builder.build()
 
     def should_make_long_order(self, indicator_values):
