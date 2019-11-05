@@ -6,12 +6,12 @@ from ....trade_strategy import MACDTradeStrategy
 class AlgorithmTester:
 
     def __init__(self, candles_file_path, strategy=MACDTradeStrategy(is_test=True), start=-100000, end=-1,
-                 window_size=500):
+                 window_size=500, dump_file_path=None):
         self.strategy = strategy
 
         self.test_iterator = TestIterator(
             candles_file_path, self.strategy.get_indicators(), self.strategy.get_progress_recorders(), start=start,
-            end=end, window_size=window_size
+            end=end, window_size=window_size, dump_file_path=dump_file_path
         )
 
     def work(self):

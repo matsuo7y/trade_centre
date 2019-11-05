@@ -36,30 +36,33 @@ class TestIteratorState:
             self.progress_builder.exit(self)
         self.position = None
 
-    def build(self):
-        result = self.progress_builder.build()
-        print(result['moment'].describe(include='all'))
-
 
 class TestIterator:
 
-    def __init__(self, candles_file_path, indicators, recorders, start=-10000, end=-1, window_size=4000):
+    def __init__(self, candles_file_path, indicators, recorders, start=-10000, end=-1, window_size=4000,
+                 dump_file_path=None):
         df = pd.read_csv(candles_file_path)
         self.df = df.iloc[start:end, :]
+        self.length = len(self.df.index)
+
         self.window_size = window_size
         self.indicators = indicators
         self.current = 0
         self.test_iterator_state = TestIteratorState(self.df, recorders)
+        self.dump_file_path = dump_file_path
 
     def __iter__(self):
         return self
 
     def __next__(self):
-        length = len(self.df.index)
-
         end = self.current + self.window_size
-        if end > length:
-            self.test_iterator_state.build()
+        if end > self.length:
+            if self.dump_file_path:
+                result = self.test_iterator_state.progress_builder.dump(self.dump_file_path)
+            else:
+                result = self.test_iterator_state.progress_builder.build()
+
+            print(result['moment'].describe(include='all'))
             raise StopIteration()
 
         df = self.df.iloc[self.current:end, :]

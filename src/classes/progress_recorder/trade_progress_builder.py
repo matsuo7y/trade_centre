@@ -41,13 +41,11 @@ class TradeProgressBuilder(AbstractProgressBuilder):
             recorder.exit(material)
 
     def _build(self, recorders):
-        records = []
-        for recorder in recorders:
-            records.append(recorder.build())
+        records = [x.build() for x in recorders]
 
         if records:
             records = np.array(records)
-            return self.dict_updater.reduce(records, initial={})
+            return self.dict_updater.reduce(records, axis=0)
 
         return None
 
@@ -70,6 +68,8 @@ class TradeProgressBuilder(AbstractProgressBuilder):
         records = self.build()
         with open(dump_file_path, mode='wb') as f:
             pickle.dump(records, f)
+
+        return records
 
     @staticmethod
     def load(load_file_path):
