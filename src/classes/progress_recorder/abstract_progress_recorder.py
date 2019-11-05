@@ -47,7 +47,11 @@ class AbstractProgressRecorder(AbstractProgressBuilder, ABC):
 
     def entry(self, material):
         value = self.get_value(material)
+
         entry_record = self.make_entry_record(value)
+        if self.is_series_record:
+            entry_record['margin'] = self.margin_period
+
         entity = RecordEntity(self.latest_index, self.margin_period, entry_record)
         self.progress_entities.append(entity)
         self.latest_index += 1
