@@ -101,8 +101,6 @@ class TradeIterator:
         candles_df = pd.DataFrame([x for x in df['mid']])
         self.iter_info.candles_df = candles_df
 
-        logging.info('Price: time=>%s close=>%s', df.iloc[-1]['time'], candles_df.iloc[-1]['c'])
-
         self.iter_info.indicator_values = self.indicators.get_values(self.iter_info.candles_df)
 
         return self.iter_info

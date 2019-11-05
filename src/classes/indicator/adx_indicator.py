@@ -29,7 +29,7 @@ class ADXIndicator(AbstractIndicator):
 
         last_adx, last_plus_di, last_minus_di = adx.iloc[-1], plus_di.iloc[-1], minus_di.iloc[-1]
 
-        material = dict(adx=last_adx, plus_di=last_plus_di, minus_di=last_minus_di)
+        material = dict(adx=adx, plus_di=plus_di, minus_di=minus_di)
 
         if last_adx > self.trend_threshold:
             if last_plus_di > last_minus_di:

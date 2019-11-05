@@ -1,7 +1,6 @@
 from .abstract_trade_strategy import AbstractTradeStrategy
-from ..indicator import (
-    IndicatorsBuilder, IndicatorType, MACDIndicator, MACDIndicatorSign, ADXIndicator, ADXIndicatorSign
-)
+from ..indicator import IndicatorType, MACDIndicator, MACDIndicatorSign, ADXIndicator, ADXIndicatorSign
+from ..progress_recorder import MACDRecorder, ADXRecorder
 
 
 class MACDADXTradeStrategy(AbstractTradeStrategy):
@@ -9,14 +8,16 @@ class MACDADXTradeStrategy(AbstractTradeStrategy):
     def __init__(self, is_test=False):
         super().__init__(is_test=is_test)
 
-    def get_indicators(self):
-        indicator_builder = IndicatorsBuilder()
-        indicator_builder.add(
+    def indicator_builder_adder(self):
+        self.indicator_builder.add(
             IndicatorType.MACD.name,
             MACDIndicator(fast_period=12, slow_period=26, signal_period=9, is_test=self.is_test)
         )
-        indicator_builder.add(IndicatorType.ADX.name, ADXIndicator(time_period=9, is_test=self.is_test))
-        return indicator_builder.build()
+        self.indicator_builder.add(IndicatorType.ADX.name, ADXIndicator(time_period=9, is_test=self.is_test))
+
+    def progress_recorders_appender(self):
+        self.progress_recorders.append(MACDRecorder())
+        self.progress_recorders.append(ADXRecorder())
 
     @staticmethod
     def _get_indicator_value(indicator_values):

@@ -3,8 +3,9 @@ from enum import Enum
 
 
 class IndicatorType(Enum):
-    MACD = 1
-    ADX = 2
+    CANDLE = 1
+    MACD = 2
+    ADX = 3
 
 
 class IndicatorValue:

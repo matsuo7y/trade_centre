@@ -24,13 +24,13 @@ class MACDIndicator(AbstractIndicator):
         self.signal_period = signal_period
 
     def get(self, df):
-        macd, macd_signal, _ = talib.MACD(
+        macd, signal, _ = talib.MACD(
             df['c'], fastperiod=self.fast_period, slowperiod=self.slow_period, signalperiod=self.signal_period)
 
         latest_macd = macd.iloc[-1]
-        latest_signal = macd_signal.iloc[-1]
+        latest_signal = signal.iloc[-1]
 
-        material = dict(macd=latest_macd, signal=latest_signal)
+        material = dict(macd=macd, signal=signal)
 
         if latest_macd < 0:
             if latest_signal < 0:
