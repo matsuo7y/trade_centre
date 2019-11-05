@@ -2,5 +2,6 @@ numpy==1.17.3
 pandas==0.25.2
 TA-Lib==0.4.17
 requests==2.22.0
-plotly==4.2.1
+dash==1.4.1
+dash-daq==0.2.2
 
