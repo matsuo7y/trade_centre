@@ -58,11 +58,10 @@ class TestIterator:
         end = self.current + self.window_size
         if end > self.length:
             if self.dump_file_path:
-                result = self.test_iterator_state.progress_builder.dump(self.dump_file_path)
+                self.test_iterator_state.progress_builder.dump(self.dump_file_path)
             else:
-                result = self.test_iterator_state.progress_builder.build()
+                self.test_iterator_state.progress_builder.build()
 
-            print(result['moment'].describe(include='all'))
             raise StopIteration()
 
         df = self.df.iloc[self.current:end, :]

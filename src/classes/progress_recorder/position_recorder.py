@@ -17,7 +17,10 @@ class PositionRecorder(AbstractProgressRecorder):
         return test_iter_info.position
 
     def make_entry_record(self, value):
-        return {'direction': value.order_direction}
+        return {
+            'direction': value.order_direction,
+            'order_price': value.order_price
+        }
 
     def make_progress_record(self, current_record, value):
         return current_record
