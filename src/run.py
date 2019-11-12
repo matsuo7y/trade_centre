@@ -1,7 +1,8 @@
 import argparse
 
-from classes.test import api_test
-from classes.trade import MACDTrader
+from classes.test import api_test, algorithm_test
+from classes.trade import trade
+from classes.progress_viewer import start_progress_view
 
 
 def get_args():
@@ -9,8 +10,12 @@ def get_args():
 
     parser.add_argument('--trade', dest='trade', action='store_const', const=True, default=False,
                         help='perform automatic FX trade')
-    parser.add_argument('--test', dest='test', action='store_const', const=True, default=False,
-                        help='perform system test')
+    parser.add_argument('--algorithm_test', dest='algorithm_test', action='store_const', const=True, default=False,
+                        help='perform algorithm test')
+    parser.add_argument('--api_test', dest='api_test', action='store_const', const=True, default=False,
+                        help='perform API test')
+    parser.add_argument('--progress_view', dest='progress_view', action='store_const', const=True, default=False,
+                        help='start progress viewer application')
 
     return parser.parse_args()
 
@@ -18,8 +23,14 @@ def get_args():
 if __name__ == '__main__':
     args = get_args()
 
-    if args.test:
+    if args.algorithm_test:
+        algorithm_test()
+
+    if args.api_test:
         api_test()
 
     if args.trade:
-        MACDTrader().work()
+        trade()
+
+    if args.progress_view:
+        start_progress_view()

@@ -108,3 +108,4 @@ venv.bak/
 
 # private
 oanda_private.py
+tester_private.py

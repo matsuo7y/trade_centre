@@ -1,1 +1,1 @@
-from .macd_trader import MACDTrader
+from .trade import trade
