@@ -1,5 +1,6 @@
 import dash
 import dash_html_components as html
+import dash_bootstrap_components as dbc
 
 from .record_loader import RecordLoader
 from .progress_view_creater import ProgressViewCreator
@@ -8,11 +9,10 @@ from ..trade_strategy import MACDADXTradeStrategy
 
 
 def create_app(recorders):
-    external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
     record_loader = RecordLoader(PROGRESS_ABS_FILE_PATH, recorders)
     progress_view_creator = ProgressViewCreator(recorders)
 
-    app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+    app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
     record_loader.initialize()
 
@@ -23,10 +23,21 @@ def create_app(recorders):
     graph = progress_view_creator.graph(records)
 
     app.layout = html.Div(children=[
-        # html.H4(children='Pos:{} Index:{}'.format(record_loader.current_pos, record_loader.current_index)),
-        table,
+        html.Div(children=[
+            dbc.Button('<<', color='info', className='ml-2 mr-2'),
+            dbc.Button('<', color='secondary', className='mr-2'),
+            dbc.Input(id='interval', type='number', value=10, min=1, max=1000, step=1, style={'width': '80px'},
+                      className='mr-2'),
+            dbc.Badge('POS\n{}'.format(record_loader.current_pos), color='primary', style={'width': '40px'},
+                      className='mr-2 text-wrap'),
+            dbc.Badge('IDX\n{}'.format(record_loader.current_index), color='danger', style={'width': '40px'},
+                      className='mr-2 text-wrap'),
+            dbc.Button('>', color='secondary', className='mr-2'),
+            dbc.Button('>>', color='info', className='mr-2'),
+        ], className='d-flex flex-row justify-content-center p-2'),
+        html.Div(children=[table], className='d-flex flex-row justify-content-center'),
         graph
-    ])
+    ], className='bg-light')
 
     return app
 

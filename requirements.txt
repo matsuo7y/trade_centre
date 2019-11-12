@@ -4,4 +4,5 @@ TA-Lib==0.4.17
 requests==2.22.0
 dash==1.4.1
 dash-daq==0.2.2
+dash-bootstrap-components==0.7.2
 

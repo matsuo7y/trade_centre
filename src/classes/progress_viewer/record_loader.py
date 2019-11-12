@@ -1,5 +1,4 @@
-from ..progress_recorder import TradeProgressBuilder
-from ..progress_recorder import PositionRecorder
+from ..progress_recorder import PositionRecorder, TradeProgressBuilder
 
 
 class RecordLoader:

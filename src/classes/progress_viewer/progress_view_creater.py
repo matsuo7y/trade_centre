@@ -1,3 +1,4 @@
+import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
 import plotly.graph_objects as go
@@ -44,7 +45,7 @@ class ProgressViewCreator:
             row += 1
 
         fig.update_layout(height=800, xaxis_rangeslider_visible=False)
-        return dcc.Graph(id='graph', figure=fig)
+        return dcc.Graph(id='graph', figure=fig, className='mt-0')
 
     @staticmethod
     def __format(value):
@@ -61,4 +62,5 @@ class ProgressViewCreator:
             header += [html.Th(key) for key in keys]
             body += [html.Td(self.__format(records[i][key])) for key in keys]
 
-        return html.Table([html.Tr(header), html.Tr(body)])
+        return dbc.Table([html.Tr(header), html.Tr(body)], bordered=True, size='sm', style={'width': '700px'},
+                         className='ml-2 mb-2 mr-2 mt-1')
