@@ -19,7 +19,8 @@ class RecordLoader:
         self.sorted_index = []
         self.current_pos = 0
         self.current_index = 0
-        self.interval = 1
+        self.last_index = 0
+        self.interval = 10
 
     def __get(self):
         self.current_index = self.sorted_index[self.current_pos]
@@ -29,6 +30,7 @@ class RecordLoader:
         position_record = self.records[self.position_recorder_index]
         self.sorted_index = position_record.sort_values(sort_key).index.to_numpy().tolist()
         self.current_pos = 0
+        self.last_index = len(self.sorted_index) - 1
 
     def first(self):
         self.current_pos = 0
@@ -36,10 +38,16 @@ class RecordLoader:
 
     def next(self):
         self.current_pos += self.interval
-        if self.current_pos >= len(self.sorted_index):
-            self.current_pos = -1
+        if self.current_pos > self.last_index:
+            self.current_pos = self.last_index
+        return self.__get()
+
+    def prev(self):
+        self.current_pos -= self.interval
+        if self.current_pos < 0:
+            self.current_pos = 0
         return self.__get()
 
     def last(self):
-        self.current_pos = -1
+        self.current_pos = self.last_index
         return self.__get()

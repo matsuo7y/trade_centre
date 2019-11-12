@@ -1,5 +1,4 @@
 import dash_bootstrap_components as dbc
-import dash_core_components as dcc
 import dash_html_components as html
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
@@ -14,7 +13,7 @@ class ProgressViewCreator:
         self.index_for_graph = [i for i, x in enumerate(recorders) if x.is_series_record]
         self.index_for_table = [i for i, x in enumerate(recorders) if not x.is_series_record]
 
-    def graph(self, records):
+    def series_figure(self, records):
         rows = len(self.index_for_graph)
         fig = make_subplots(rows=rows, cols=1, shared_xaxes=True, vertical_spacing=0.02)
 
@@ -45,7 +44,7 @@ class ProgressViewCreator:
             row += 1
 
         fig.update_layout(height=800, xaxis_rangeslider_visible=False)
-        return dcc.Graph(id='graph', figure=fig, className='mt-0')
+        return fig
 
     @staticmethod
     def __format(value):
