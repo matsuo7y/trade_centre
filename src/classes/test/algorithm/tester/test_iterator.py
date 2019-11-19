@@ -22,7 +22,9 @@ class TestIteratorState:
 
     def progress(self):
         if self.position:
+            self.position.set_current_profit(self.index)
             self.position.set_max_profit(self.index)
+            self.position.set_min_profit(self.index)
 
         if self.progress_builder:
             self.progress_builder.progress(self)

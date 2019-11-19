@@ -1,1 +1,1 @@
-from .app import start_progress_view
+from .app import progress_view

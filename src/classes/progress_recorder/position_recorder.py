@@ -29,6 +29,7 @@ class PositionRecorder(AbstractProgressRecorder):
         exit_record = {
             'profit': value.profit_pips,
             'max_profit': value.max_profit_pips,
+            'min_profit': value.min_profit_pips,
             'position_time': value.time,
             'profit_or_loss': ProfitType.PROFIT.value if value.profit_pips > 0 else ProfitType.LOSS.value
         }

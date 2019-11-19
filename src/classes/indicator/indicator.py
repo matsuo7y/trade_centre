@@ -6,6 +6,7 @@ class IndicatorType(Enum):
     CANDLE = 1
     MACD = 2
     ADX = 3
+    ROC = 4
 
 
 class IndicatorValue:
@@ -31,22 +32,22 @@ class Indicators:
         self.contents = contents
 
     def get_values(self, df):
-        indicator_value_builder = IndicatorTypeDictBuilder()
+        values = {}
         for indicator_type, indicator in self.contents.items():
-            indicator_value_builder.add(indicator_type, indicator.get(df))
-        return indicator_value_builder.build()
+            values[indicator_type] = indicator.get(df)
+        return values
 
 
 class IndicatorTypeDictBuilder:
     def __init__(self):
         self.contents = {}
 
-    def add(self, indicator_type, value):
+    def add(self, indicator_type, value, suffix=''):
         try:
             key = IndicatorType[indicator_type].name
-            self.contents[key] = value
+            self.contents['{}{}'.format(key, suffix)] = value
         except KeyError as e:
-            print(e)
+            raise e
 
     def build(self):
         return self.contents

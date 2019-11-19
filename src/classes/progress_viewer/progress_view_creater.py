@@ -3,7 +3,7 @@ import dash_html_components as html
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
-from ..progress_recorder import ADXRecorder, CandleRecorder, MACDRecorder
+from ..progress_recorder import ADXRecorder, CandleRecorder, MACDRecorder, ROCRecorder
 
 
 class ProgressViewCreator:
@@ -40,6 +40,10 @@ class ProgressViewCreator:
                 fig.add_trace(adx, row=row, col=1)
                 fig.add_trace(plus_di, row=row, col=1)
                 fig.add_trace(minus_di, row=row, col=1)
+
+            if isinstance(recorder, ROCRecorder):
+                roc = go.Scatter(x=r.index, y=r[recorder.roc_key], name=recorder.roc_key)
+                fig.add_trace(roc, row=row, col=1)
 
             row += 1
 

@@ -2,7 +2,7 @@ import argparse
 
 from classes.test import api_test, algorithm_test
 from classes.trade import trade
-from classes.progress_viewer import start_progress_view
+from classes.progress_viewer import progress_view
 
 
 def get_args():
@@ -16,6 +16,9 @@ def get_args():
                         help='perform API test')
     parser.add_argument('--progress_view', dest='progress_view', action='store_const', const=True, default=False,
                         help='start progress viewer application')
+
+    parser.add_argument('--progress_summary', dest='progress_summary', action='store_const', const=True, default=False,
+                        help='show progress summary')
 
     return parser.parse_args()
 
@@ -33,4 +36,7 @@ if __name__ == '__main__':
         trade()
 
     if args.progress_view:
-        start_progress_view()
+        progress_view(web=True)
+
+    if args.progress_summary:
+        progress_view(web=False)

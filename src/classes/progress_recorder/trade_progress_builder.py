@@ -39,9 +39,9 @@ class TradeProgressBuilder(AbstractProgressBuilder):
         for recorder in self.recorders:
             if recorder.is_series_record:
                 record = pd.Series([pd.DataFrame(x) for x in recorder.build()])
-                record.describe(include='all')
             else:
                 record = pd.DataFrame(self.dict_list_appender.reduce(recorder.build(), initial={}))
+                print(record.describe(include='all'))
 
             records.append(record)
 

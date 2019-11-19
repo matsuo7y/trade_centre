@@ -20,7 +20,9 @@ class Position:
         self.order_price = None
         self.take_profit_price = None
         self.profit_pips = None
+        self.current_profit_pips = None
         self.max_profit_pips = -1000.0
+        self.min_profit_pips = 1000.0
         self.time = None
 
     def market_order(self, index, direction):
@@ -44,10 +46,18 @@ class Position:
         profit *= 100.
         return current_price, profit
 
+    def set_current_profit(self, index):
+        _, self.current_profit_pips = self.__current_price_profit(index)
+
     def set_max_profit(self, index):
         _, profit = self.__current_price_profit(index)
         if profit > self.max_profit_pips:
             self.max_profit_pips = profit
+
+    def set_min_profit(self, index):
+        _, profit = self.__current_price_profit(index)
+        if profit < self.min_profit_pips:
+            self.min_profit_pips = profit
 
     def take_profit_order(self, index):
         if self.order_price is None:

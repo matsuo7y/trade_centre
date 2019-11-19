@@ -21,6 +21,10 @@ class AbstractTradeStrategy(ABC):
         self.progress_recorders_appender()
         return self.progress_recorders
 
+    @staticmethod
+    def make_key(indicator_type, suffix=''):
+        return '{}{}'.format(indicator_type, suffix)
+
     @abstractmethod
     def indicator_builder_adder(self):
         raise NotImplementedError()

@@ -31,7 +31,7 @@ class ADXIndicator(AbstractIndicator):
 
         material = dict(adx=adx, plus_di=plus_di, minus_di=minus_di)
 
-        if last_adx > self.trend_threshold:
+        if last_adx > self.trend_threshold and last_adx - adx.iloc[-2] > 0:
             if last_plus_di > last_minus_di:
                 indicator_value = IndicatorValue(ADXIndicatorSign.TREND_PLUS.name, material=material)
             else:
