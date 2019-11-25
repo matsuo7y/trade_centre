@@ -1,5 +1,7 @@
 from enum import Enum
 
+from ....config import RATIO_TO_PIP_UNIT, SPREAD_PIP
+
 
 class OrderDirection(Enum):
     LONG = 1
@@ -14,7 +16,7 @@ class Position:
 
     def __init__(self, candles_df):
         self.df = candles_df
-        self.spread = 0.008
+        self.spread = SPREAD_PIP * RATIO_TO_PIP_UNIT
         self.order_direction = None
         self.entry_index = None
         self.order_price = None
@@ -43,7 +45,7 @@ class Position:
         else:
             profit = self.order_price - current_price
 
-        profit *= 100.
+        profit /= RATIO_TO_PIP_UNIT
         return current_price, profit
 
     def set_current_profit(self, index):

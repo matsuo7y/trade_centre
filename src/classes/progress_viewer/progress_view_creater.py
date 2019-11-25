@@ -53,7 +53,7 @@ class ProgressViewCreator:
     @staticmethod
     def __format(value):
         if isinstance(value, float):
-            return '{:.3f}'.format(value)
+            return '{:.5f}'.format(value)
         else:
             return value
 

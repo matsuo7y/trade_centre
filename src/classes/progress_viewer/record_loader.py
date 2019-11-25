@@ -1,12 +1,15 @@
 import pandas as pd
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 
-from ..progress_recorder import PositionRecorder, TradeProgressBuilder
+from ..progress_recorder import PositionRecorder, TradeProgressBuilder, MACDRecorder, ADXRecorder, ROCRecorder
 
 
 class RecordLoader:
 
     def __init__(self, file_path, recorders):
         self.records = TradeProgressBuilder.load(file_path)
+        self.recorders = recorders
 
         position_recorder_index = None
         for i, recorder in enumerate(recorders):
@@ -56,33 +59,53 @@ class RecordLoader:
     def print_position_summary(self):
         print(self.position_record.describe(include='all'))
 
-    def print_optimized_summary(self):
-        max_limit = self.position_record.max_profit.max()
-        min_stop_loss = self.position_record.profit.min()
+    def __get_start_records(self, recorder_class, key):
+        index = None
+        for i in range(len(self.recorders)):
+            if isinstance(self.recorders[i], recorder_class):
+                index = i
+                break
 
-        step = 0.01
-        limits = []
-        stop_losses = []
-        average_profits = []
-        for i, limit in enumerate([k * step for k in range(1, int(abs(max_limit) / step))]):
-            for j, stop_loss in enumerate([-k * step for k in range(81, int(abs(min_stop_loss) / step))]):
-                profits = []
-                for position in self.position_record.itertuples():
-                    if position.max_profit > limit:
-                        profits.append(limit)
-                    elif position.min_profit < stop_loss:
-                        profits.append(stop_loss)
-                    else:
-                        profits.append(position.profit)
+        record = self.records[index]
+        return [abs(x.iloc[47][key]) for x in record]
 
-                limits.append(limit)
-                stop_losses.append(stop_loss)
-                average_profits.append(sum(profits) / len(profits))
+    def print_quad_sign_trade_strategy_statistics(self):
+        macd_start_record = self.__get_start_records(MACDRecorder, 'macd1')
+        adx_start_record = self.__get_start_records(ADXRecorder, 'adx')
+        roc_start_record = self.__get_start_records(ROCRecorder, 'roc')
 
-                if i % 100 == 0 and j % 100 == 0:
-                    print('progress: {}, {}'.format(i, j))
+        fig = make_subplots(rows=3, cols=2)
 
-        results = pd.DataFrame(dict(limit=limits, stop_loss=stop_losses, profit=average_profits))
-        results = results.sort_values('profit', ascending=False)
+        profit_macd = go.Scatter(
+            x=self.position_record.profit, y=macd_start_record, mode='markers')
+        max_profit_macd = go.Scatter(
+            x=self.position_record.max_profit, y=macd_start_record, mode='markers')
 
-        print(results)
+        profit_adx = go.Scatter(
+            x=self.position_record.profit, y=adx_start_record, mode='markers')
+        max_profit_adx = go.Scatter(
+            x=self.position_record.max_profit, y=adx_start_record, mode='markers')
+
+        profit_roc = go.Scatter(
+            x=self.position_record.profit, y=roc_start_record, mode='markers')
+        max_profit_roc = go.Scatter(
+            x=self.position_record.max_profit, y=roc_start_record, mode='markers')
+
+        fig.add_trace(profit_macd, row=1, col=1)
+        fig.add_trace(max_profit_macd, row=1, col=2)
+        fig.add_trace(profit_adx, row=2, col=1)
+        fig.add_trace(max_profit_adx, row=2, col=2)
+        fig.add_trace(profit_roc, row=3, col=1)
+        fig.add_trace(max_profit_roc, row=3, col=2)
+
+        fig.show()
+
+        df_profit_macd = pd.DataFrame(dict(profit=self.position_record.profit, macd=macd_start_record))
+
+        print(df_profit_macd[df_profit_macd.macd <= 0.005].describe(include='all'))
+        print(df_profit_macd[df_profit_macd.macd > 0.005].describe(include='all'))
+
+        df_max_profit_macd = pd.DataFrame(dict(profit=self.position_record.max_profit, macd=macd_start_record))
+
+        print(df_max_profit_macd[df_profit_macd.macd <= 0.005].describe(include='all'))
+        print(df_max_profit_macd[df_profit_macd.macd > 0.005].describe(include='all'))
