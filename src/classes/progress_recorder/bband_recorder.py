@@ -9,7 +9,7 @@ class BBANDRecorder(AbstractProgressRecorder):
         self.upper_2_key = 'upper_2'
         self.upper_1_key = 'upper_1'
         self.middle_key = 'middle'
-        self.lower_1_ley = 'lower_1'
+        self.lower_1_key = 'lower_1'
         self.lower_2_key = 'lower_2'
         self.indicator_key = IndicatorType.BBAND.name
 
@@ -27,7 +27,7 @@ class BBANDRecorder(AbstractProgressRecorder):
             self.upper_2_key: upper_2,
             self.upper_1_key: upper_1,
             self.middle_key: middle,
-            self.lower_1_ley: lower_1,
+            self.lower_1_key: lower_1,
             self.lower_2_key: lower_2
         }
 
@@ -41,7 +41,7 @@ class BBANDRecorder(AbstractProgressRecorder):
         current_record[self.upper_2_key].append(latest_upper_2)
         current_record[self.upper_1_key].append(latest_upper_1)
         current_record[self.middle_key].append(latest_middle)
-        current_record[self.lower_1_ley].append(latest_lower_1)
+        current_record[self.lower_1_key].append(latest_lower_1)
         current_record[self.lower_2_key].append(latest_lower_2)
 
         return current_record
