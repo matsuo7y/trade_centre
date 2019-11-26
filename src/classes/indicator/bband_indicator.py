@@ -24,8 +24,8 @@ class BBANDIndicator(AbstractIndicator):
     def get(self, df):
         c = df['c']
 
-        upper_1, middle, lower_1 = talib.BBAND(c, timeperiod=self.time_period, nbdevup=1, nbdevdn=1)
-        upper_2, _, lower_2 = talib.BBAND(c, timeperiod=self.time_period, nbdevup=2, nbdevdn=2)
+        upper_1, middle, lower_1 = talib.BBANDS(c, timeperiod=self.time_period, nbdevup=1, nbdevdn=1)
+        upper_2, _, lower_2 = talib.BBANDS(c, timeperiod=self.time_period, nbdevup=2, nbdevdn=2)
 
         latest_c = c.iloc[-1]
         latest_upper_1, latest_middle, latest_lower_1 = upper_1.iloc[-1], middle.iloc[-1], lower_1.iloc[-1]
