@@ -17,7 +17,7 @@ class BBANDIndicatorSign(Enum):
 
 class BBANDIndicator(AbstractIndicator):
 
-    def __init__(self, time_period=12, is_test=False):
+    def __init__(self, time_period=6, is_test=False):
         super().__init__(is_test=is_test)
         self.time_period = time_period
 
