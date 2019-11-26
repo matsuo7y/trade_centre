@@ -7,6 +7,7 @@ class IndicatorType(Enum):
     MACD = 2
     ADX = 3
     ROC = 4
+    BBAND = 5
 
 
 class IndicatorValue:
