@@ -1,3 +1,4 @@
 from .macd_trade_strategy import MACDTradeStrategy
 from .macd_adx_trade_strategy import MACDADXTradeStrategy
 from .quad_sign_trade_strategy import QuadSignTradeStrategy
+from .dual_macd_trade_strategy import DualMACDTradeStrategy

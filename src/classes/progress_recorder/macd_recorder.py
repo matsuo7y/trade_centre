@@ -6,6 +6,7 @@ class MACDRecorder(AbstractProgressRecorder):
 
     def __init__(self, suffix=''):
         super().__init__(is_series_record=True)
+        self.suffix = suffix
         self.macd_key = 'macd{}'.format(suffix)
         self.signal_key = 'signal{}'.format(suffix)
         self.indicator_key = '{}{}'.format(IndicatorType.MACD.name, suffix)

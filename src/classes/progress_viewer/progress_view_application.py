@@ -17,6 +17,7 @@ class ProgressViewApplication:
 
     def summary(self):
         self.record_loader.print_position_summary()
+        # self.record_loader.print_dual_trade_strategy_statistics()
 
     def start_web(self):
         record_loader = self.record_loader
