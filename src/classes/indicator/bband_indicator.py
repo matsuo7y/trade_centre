@@ -1,7 +1,8 @@
 import logging
 from enum import Enum
 
-import talib
+import numpy as np
+import pandas as pd
 
 from .indicator import AbstractIndicator, IndicatorValue
 
@@ -21,11 +22,31 @@ class BBANDIndicator(AbstractIndicator):
         super().__init__(is_test=is_test)
         self.time_period = time_period
 
+    def __bbands(self, close, width=100):
+        if width < self.time_period:
+            raise ValueError('width should be greater than time period.')
+
+        c = close.iloc[-width:] if len(close) > width else close
+
+        upper_2, upper_1, middle, lower_1, lower_2 = [], [], [], [], []
+        for i in range(width, self.time_period, -1):
+            _c = c.iloc[-i:-i + self.time_period - 1].to_numpy()
+
+            mean = np.mean(_c, dtype='float64')
+            std = np.std(_c, dtype='float64')
+
+            upper_2.append(mean + 2. * std)
+            upper_1.append(mean + std)
+            middle.append(mean)
+            lower_1.append(mean - std)
+            lower_2.append(mean - 2. * std)
+
+        return pd.Series(upper_2), pd.Series(upper_1), pd.Series(middle), pd.Series(lower_1), pd.Series(lower_2)
+
     def get(self, df):
         c = df['c']
 
-        upper_1, middle, lower_1 = talib.BBANDS(c, timeperiod=self.time_period, nbdevup=1, nbdevdn=1)
-        upper_2, _, lower_2 = talib.BBANDS(c, timeperiod=self.time_period, nbdevup=2, nbdevdn=2)
+        upper_2, upper_1, middle, lower_1, lower_2 = self.__bbands(c)
 
         latest_c = c.iloc[-1]
         latest_upper_1, latest_middle, latest_lower_1 = upper_1.iloc[-1], middle.iloc[-1], lower_1.iloc[-1]
